@@ -1,3 +1,4 @@
+import Helpers.Validacao;
 import Models.Questao;
 import Models.Quiz;
 
@@ -13,22 +14,72 @@ public class Main {
         int numTurma;
         String descricao;
 
-        String titulo = "Olá professor! Insira a turma e a descrição do seu quiz.";
+        Quiz quiz = new Quiz();
 
-        Scanner scan = new Scanner(titulo);
-        System.out.println(scan.nextLine());
+        System.out.println("Olá professor! Insira a turma e a descrição do seu quiz.");
 
         Scanner addNumTurma = new Scanner(System.in);
-        numTurma = Integer.parseInt(addNumTurma.next());
+
+        do {
+            while (!addNumTurma.hasNextInt()) {
+                System.out.println("Ops! O parâmetro 'nº turma' não é numérico, insira-o novamente.");
+                addNumTurma.next();
+            }
+
+            numTurma = addNumTurma.nextInt();
+        } while (numTurma <= 0);
+
+        quiz.setNumTurma(numTurma);
 
         Scanner addDescricao = new Scanner(System.in);
         descricao = addDescricao.next();
 
-        Quiz quiz = new Quiz();
-        quiz.setNumTurma(numTurma);
-        quiz.setConteudoDescricao(descricao);
+        if (Validacao.stringCorreta(descricao)) {
+            quiz.setConteudoDescricao(descricao);
+        }
 
         System.out.println("Você criou o quiz para a turma: " + quiz.getNumTurma() + ", com a descrição: " + quiz.getConteudoDescricao());
+
+        situacaoQuiz();
+    }
+
+    public static void situacaoQuiz() {
+        boolean finalizaSwitch = false;
+        int statusQuiz = 0;
+
+        do {
+            System.out.println("Selecione o status que o quiz irá possuir: (R) Rascunho    (P) Pronto    (I) Inativo");
+
+            Scanner addTipoSituacao = new Scanner(System.in);
+            char opcao = addTipoSituacao.next().toUpperCase().charAt(0);
+
+            switch (opcao) {
+                case 'R':
+                    statusQuiz = 1;
+                    System.out.println("O quiz será armazenado como: 'rascunho'");
+                    finalizaSwitch = true;
+
+                    break;
+                case 'P':
+                    statusQuiz = 2;
+                    System.out.println("O quiz será armazenado como: 'pronto'");
+                    finalizaSwitch = true;
+
+                    break;
+
+                case 'I':
+                    statusQuiz = 3;
+                    System.out.println("O quiz será armazenado como: 'inativo'");
+                    finalizaSwitch = true;
+
+                    break;
+                default:
+                    System.out.println("Você deve selecionar apenas: (R) Rascunho    (P) Pronto    (I) Inativo");
+                    break;
+            }
+        } while (!finalizaSwitch);
+
+        System.out.println("O status do seu quiz é: " + statusQuiz);
 
         inserePerguntas();
     }
@@ -42,7 +93,15 @@ public class Main {
         System.out.println(scanQntPerguntas.nextLine());
 
         Scanner addQntPerguntas = new Scanner(System.in);
-        qntPerguntas = Integer.parseInt(addQntPerguntas.next());
+
+        do {
+            while (!addQntPerguntas.hasNextInt()) {
+                System.out.println("Ops! O parâmetro 'nº turma' não é numérico, insira-o novamente.");
+                addQntPerguntas.next();
+            }
+
+            qntPerguntas = addQntPerguntas.nextInt();
+        } while (qntPerguntas <= 0);
 
         Scanner umaPergunta = new Scanner("Certo! O quiz terá: " + qntPerguntas + " pergunta. Agora insira as perguntas:");
         Scanner maisDeUmaPergunta = new Scanner("Certo! O quiz terá: " + qntPerguntas + " perguntas. Agora insira as perguntas:");
