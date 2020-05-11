@@ -165,9 +165,9 @@ public class Main {
             System.out.println("Selecione o status que o quiz irá possuir: (R) Rascunho    (P) Pronto    (I) Inativo");
 
             Scanner addTipoSituacao = new Scanner(System.in);
-            char opcao = addTipoSituacao.next().toUpperCase().charAt(0);
+            char opcaoTipoSituacao = addTipoSituacao.next().toUpperCase().charAt(0);
 
-            switch (opcao) {
+            switch (opcaoTipoSituacao) {
                 case 'R':
                     statusQuiz = 1;
                     System.out.println("O quiz será armazenado como: 'rascunho'");
@@ -216,8 +216,7 @@ public class Main {
         String pergunta;
         String respostaCorreta;
 
-        Scanner scanQntPerguntas = new Scanner("Agora que você criou o quiz, insira a quantidade de perguntas:");
-        System.out.println(scanQntPerguntas.nextLine());
+        System.out.println("Agora que você criou o quiz, insira a quantidade de perguntas:");
 
         Scanner addQntPerguntas = new Scanner(System.in);
 
@@ -242,6 +241,32 @@ public class Main {
             Scanner addPergunta = new Scanner(System.in);
             pergunta = addPergunta.next();
 
+            System.out.println("Ok, a pergunta [" + i + "] será: (D) Descritiva    (O) Objetiva");
+
+            Scanner addTipoQuestao = new Scanner(System.in);
+            char opcaoTipoQuestao = addTipoQuestao.next().toUpperCase().charAt(0);
+
+            if (opcaoTipoQuestao == 'D') {
+                System.out.println("Beleza, então será descritiva!");
+            } else {
+                ArrayList<String> options = new ArrayList<String>();
+
+                System.out.println("Beleza, então sera objetiva!");
+                int contadosOpcoes = 1;
+
+                String opcaoPergunta;
+                Scanner addOpcaoPergunta = new Scanner(System.in);
+
+                while (contadosOpcoes <= 4) {
+                    System.out.print("Infome a opção " + contadosOpcoes + ")");
+                    opcaoPergunta = addOpcaoPergunta.nextLine();
+
+                    options.add(contadosOpcoes, opcaoPergunta);
+
+                    contadosOpcoes++;
+                }
+            }
+
             System.out.println("Informe a resposta correta para a pergunta [" + i + "]");
 
             Scanner addRespostaCorreta = new Scanner(System.in);
@@ -250,6 +275,13 @@ public class Main {
             Questao questao = new Questao();
             questao.setPergunta(pergunta);
             questao.setRespostaCorreta(respostaCorreta);
+
+            System.out.println("Essa questão acumulará pontos? (S) Sim    (N) Não");
+
+            Scanner addAcumuloPontos = new Scanner(System.in);
+            char opcaoAcumularPontos = addAcumuloPontos.next().toUpperCase().charAt(0);
+
+            questao.setPontuacao(opcaoAcumularPontos == 'S');
 
             questoes.add(questao);
         }
@@ -260,12 +292,12 @@ public class Main {
             inicializaQuestionario();
         } else {
             System.out.println("Este questionário não pode ser inicializado pois não possui o status 'pronto'");
-            System.out.println("Deseja alterar o status? (S) Sim    (N) Não.");
+            System.out.println("Deseja alterar o status? (S) Sim    (N) Não");
 
             Scanner alteraTipoSituacao = new Scanner(System.in);
-            char opcao = alteraTipoSituacao.next().toUpperCase().charAt(0);
+            char opcaoTipoSituacao = alteraTipoSituacao.next().toUpperCase().charAt(0);
 
-            if (opcao == 'S') {
+            if (opcaoTipoSituacao == 'S') {
                 situacaoQuiz();
             }
         }
@@ -287,9 +319,14 @@ public class Main {
             respostaJogador = addRespostaJogador.next();
 
             if (respostaJogador.equals(questao.getRespostaCorreta())) {
-                respostasCorretas += 1;
 
-                System.out.println("Booa! Você acertou e somou 1 ponto. TOTAL: " + respostasCorretas);
+                if (questao.getPontuacao()) {
+                    respostasCorretas += 1;
+
+                    System.out.println("Booa! Você acertou e somou 1 ponto. TOTAL: " + respostasCorretas);
+                } else {
+                    System.out.println("Booa! Você acertou mas não somou nenhum ponto pois a questão não valia pontos. TOTAL: " + respostasCorretas);
+                }
             } else {
                 System.out.println("Ops! Você errou. TOTAL: " + respostasCorretas);
             }
