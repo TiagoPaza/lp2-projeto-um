@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    private static final ArrayList<Questao> questoes = new ArrayList<Questao>();
+    private static int statusQuiz = 0;
+
     private static Funcionario funcionario;
     private static Professor professor;
+    private static int respostasCorretas = 0;
 
     public static void main(String[] args) {
         System.out.println("Olá usuário, antes de criar um novo quiz, identifique-se!");
@@ -156,7 +160,6 @@ public class Main {
 
     public static void situacaoQuiz() {
         boolean finalizaSwitch = false;
-        int statusQuiz = 0;
 
         do {
             System.out.println("Selecione o status que o quiz irá possuir: (R) Rascunho    (P) Pronto    (I) Inativo");
@@ -192,6 +195,19 @@ public class Main {
 
         System.out.println("O status do seu quiz é: " + statusQuiz);
 
+        if (questoes != null && !questoes.isEmpty()) {
+            System.out.println("Este questionário já possui questões, deseja adicionar outras? (S) Sim    (N) Não");
+
+            Scanner alteraPerguntas = new Scanner(System.in);
+            char opcao = alteraPerguntas.next().toUpperCase().charAt(0);
+
+            if (opcao == 'S') {
+                inserePerguntas();
+            } else {
+                inicializaQuestionario();
+            }
+        }
+
         inserePerguntas();
     }
 
@@ -220,8 +236,6 @@ public class Main {
         Scanner scanPerguntas = qntPerguntas >= 2 ? maisDeUmaPergunta : umaPergunta;
         System.out.println(scanPerguntas.nextLine());
 
-        ArrayList<Questao> questoes = new ArrayList<Questao>();
-
         for (int i = 1; i <= qntPerguntas; i++) {
             System.out.println("Informe a pergunta [" + i + "]");
 
@@ -241,5 +255,44 @@ public class Main {
         }
 
         System.out.println("Você inseriu as perguntas: " + questoes);
+
+        if (statusQuiz == 2) {
+            inicializaQuestionario();
+        } else {
+            System.out.println("Este questionário não pode ser inicializado pois não possui o status 'pronto'");
+            System.out.println("Deseja alterar o status? (S) Sim    (N) Não.");
+
+            Scanner alteraTipoSituacao = new Scanner(System.in);
+            char opcao = alteraTipoSituacao.next().toUpperCase().charAt(0);
+
+            if (opcao == 'S') {
+                situacaoQuiz();
+            }
+        }
+    }
+
+    public static void inicializaQuestionario() {
+        int totalQuestoes = questoes.size();
+
+        System.out.println("O questionário será inicializado com: " + totalQuestoes + " perguntas.");
+
+        for (Questao questao : questoes) {
+            String respostaJogador;
+
+            System.out.println(questao.getPergunta());
+
+            System.out.println("Insira a sua resposta: ");
+
+            Scanner addRespostaJogador = new Scanner(System.in);
+            respostaJogador = addRespostaJogador.next();
+
+            if (respostaJogador.equals(questao.getRespostaCorreta())) {
+                respostasCorretas += 1;
+
+                System.out.println("Booa! Você acertou e somou 1 ponto. TOTAL: " + respostasCorretas);
+            } else {
+                System.out.println("Ops! Você errou. TOTAL: " + respostasCorretas);
+            }
+        }
     }
 }
