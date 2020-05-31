@@ -25,7 +25,7 @@ public class Main {
 
         System.out.println("Informe abaixo seu nome completo:");
 
-        Scanner addNomeCompleto = new Scanner(System.in);
+        Scanner addNomeCompleto = new Scanner(System.in).useDelimiter("\n");
         nomeCompleto = addNomeCompleto.next();
 
         funcionario = new Funcionario();
@@ -36,7 +36,7 @@ public class Main {
 
         System.out.println("Agora, o seu CPF:");
 
-        Scanner addCpf = new Scanner(System.in);
+        Scanner addCpf = new Scanner(System.in).useDelimiter("\n");
         cpf = addCpf.next();
 
         if (Validacao.stringCorreta(cpf)) {
@@ -45,7 +45,7 @@ public class Main {
 
         System.out.println("Informe o código do seu usuário:");
 
-        Scanner addCodUsuario = new Scanner(System.in);
+        Scanner addCodUsuario = new Scanner(System.in).useDelimiter("\n");
         do {
             while (!addCodUsuario.hasNextInt()) {
                 System.out.println("Ops! O parâmetro 'cód. de usuário' não é numérico, insira-o novamente.");
@@ -62,7 +62,7 @@ public class Main {
         do {
             System.out.println("Por fim, selecione o seu cargo:  (1) Professor");
 
-            Scanner addCargo = new Scanner(System.in);
+            Scanner addCargo = new Scanner(System.in).useDelimiter("\n");
             char opcao = addCargo.next().charAt(0);
 
             switch (opcao) {
@@ -88,7 +88,7 @@ public class Main {
 
         System.out.println(funcionario.getNomeCompleto() + " informe a área de conhecimento que você atua:");
 
-        Scanner addAreaConhecimento = new Scanner(System.in);
+        Scanner addAreaConhecimento = new Scanner(System.in).useDelimiter("\n");
         areaConhecimento = addAreaConhecimento.next();
 
         if (Validacao.stringCorreta(areaConhecimento)) {
@@ -100,7 +100,7 @@ public class Main {
 
         System.out.println("Ok, agora nos informe a quantida de disciplinas que você possui:");
 
-        Scanner addQntDisciplinas = new Scanner(System.in);
+        Scanner addQntDisciplinas = new Scanner(System.in).useDelimiter("\n");
         qntDisciplinas = addQntDisciplinas.nextInt();
 
         ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
@@ -108,7 +108,7 @@ public class Main {
         for (int i = 1; i <= qntDisciplinas; i++) {
             System.out.println("Informe a disciplina [" + i + "]");
 
-            Scanner addNomeDisciplina = new Scanner(System.in);
+            Scanner addNomeDisciplina = new Scanner(System.in).useDelimiter("\n");
             nomeDisciplina = addNomeDisciplina.next();
 
             Disciplina disciplina = new Disciplina();
@@ -133,7 +133,7 @@ public class Main {
 
         Quiz quiz = new Quiz();
 
-        Scanner addNumTurma = new Scanner(System.in);
+        Scanner addNumTurma = new Scanner(System.in).useDelimiter("\n");
 
         do {
             while (!addNumTurma.hasNextInt()) {
@@ -146,7 +146,9 @@ public class Main {
 
         quiz.setNumTurma(numTurma);
 
-        Scanner addDescricao = new Scanner(System.in);
+        System.out.println("Com a turma informata, precisamos de uma descrição");
+
+        Scanner addDescricao = new Scanner(System.in).useDelimiter("\n");
         descricao = addDescricao.next();
 
         if (Validacao.stringCorreta(descricao)) {
@@ -164,7 +166,7 @@ public class Main {
         do {
             System.out.println("Selecione o status que o quiz irá possuir: (R) Rascunho    (P) Pronto    (I) Inativo");
 
-            Scanner addTipoSituacao = new Scanner(System.in);
+            Scanner addTipoSituacao = new Scanner(System.in).useDelimiter("\n");
             char opcaoTipoSituacao = addTipoSituacao.next().toUpperCase().charAt(0);
 
             switch (opcaoTipoSituacao) {
@@ -198,7 +200,7 @@ public class Main {
         if (questoes != null && !questoes.isEmpty()) {
             System.out.println("Este questionário já possui questões, deseja adicionar outras? (S) Sim    (N) Não");
 
-            Scanner alteraPerguntas = new Scanner(System.in);
+            Scanner alteraPerguntas = new Scanner(System.in).useDelimiter("\n");
             char opcao = alteraPerguntas.next().toUpperCase().charAt(0);
 
             if (opcao == 'S') {
@@ -218,7 +220,7 @@ public class Main {
 
         System.out.println("Agora que você criou o quiz, insira a quantidade de perguntas:");
 
-        Scanner addQntPerguntas = new Scanner(System.in);
+        Scanner addQntPerguntas = new Scanner(System.in).useDelimiter("\n");
 
         do {
             while (!addQntPerguntas.hasNextInt()) {
@@ -238,12 +240,12 @@ public class Main {
         for (int i = 1; i <= qntPerguntas; i++) {
             System.out.println("Informe a pergunta [" + i + "]");
 
-            Scanner addPergunta = new Scanner(System.in);
+            Scanner addPergunta = new Scanner(System.in).useDelimiter("\n");
             pergunta = addPergunta.next();
 
             System.out.println("Ok, a pergunta [" + i + "] será: (D) Descritiva    (O) Objetiva");
 
-            Scanner addTipoQuestao = new Scanner(System.in);
+            Scanner addTipoQuestao = new Scanner(System.in).useDelimiter("\n");
             char opcaoTipoQuestao = addTipoQuestao.next().toUpperCase().charAt(0);
 
             if (opcaoTipoQuestao == 'D') {
@@ -252,13 +254,15 @@ public class Main {
                 ArrayList<String> options = new ArrayList<String>();
 
                 System.out.println("Beleza, então sera objetiva!");
-                int contadosOpcoes = 1;
+                int contadosOpcoes = 0;
 
                 String opcaoPergunta;
-                Scanner addOpcaoPergunta = new Scanner(System.in);
+                Scanner addOpcaoPergunta = new Scanner(System.in).useDelimiter("\n");
 
-                while (contadosOpcoes <= 4) {
-                    System.out.print("Infome a opção " + contadosOpcoes + ")");
+                while (contadosOpcoes < 4) {
+                    int opcao = contadosOpcoes + 1;
+
+                    System.out.print("Infome a opção " + opcao + ") ");
                     opcaoPergunta = addOpcaoPergunta.nextLine();
 
                     options.add(contadosOpcoes, opcaoPergunta);
@@ -269,7 +273,7 @@ public class Main {
 
             System.out.println("Informe a resposta correta para a pergunta [" + i + "]");
 
-            Scanner addRespostaCorreta = new Scanner(System.in);
+            Scanner addRespostaCorreta = new Scanner(System.in).useDelimiter("\n");
             respostaCorreta = addRespostaCorreta.next();
 
             Questao questao = new Questao();
@@ -278,7 +282,7 @@ public class Main {
 
             System.out.println("Essa questão acumulará pontos? (S) Sim    (N) Não");
 
-            Scanner addAcumuloPontos = new Scanner(System.in);
+            Scanner addAcumuloPontos = new Scanner(System.in).useDelimiter("\n");
             char opcaoAcumularPontos = addAcumuloPontos.next().toUpperCase().charAt(0);
 
             questao.setPontuacao(opcaoAcumularPontos == 'S');
@@ -294,7 +298,7 @@ public class Main {
             System.out.println("Este questionário não pode ser inicializado pois não possui o status 'pronto'");
             System.out.println("Deseja alterar o status? (S) Sim    (N) Não");
 
-            Scanner alteraTipoSituacao = new Scanner(System.in);
+            Scanner alteraTipoSituacao = new Scanner(System.in).useDelimiter("\n");
             char opcaoTipoSituacao = alteraTipoSituacao.next().toUpperCase().charAt(0);
 
             if (opcaoTipoSituacao == 'S') {
@@ -315,7 +319,7 @@ public class Main {
 
             System.out.println("Insira a sua resposta: ");
 
-            Scanner addRespostaJogador = new Scanner(System.in);
+            Scanner addRespostaJogador = new Scanner(System.in).useDelimiter("\n");
             respostaJogador = addRespostaJogador.next();
 
             if (respostaJogador.equals(questao.getRespostaCorreta())) {
@@ -331,5 +335,7 @@ public class Main {
                 System.out.println("Ops! Você errou. TOTAL: " + respostasCorretas);
             }
         }
+
+        System.out.println("Obrigado por participar! Até logo.");
     }
 }
